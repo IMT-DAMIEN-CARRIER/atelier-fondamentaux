@@ -29,6 +29,7 @@ int nethowIp(char *ifname[])
     struct ifaddrs *list;
     int res = getifaddrs(&list);
     char host[NI_MAXHOST];
+    char ipstrv6[50];
     char addr[50];
     char mask[50];
 
@@ -56,7 +57,7 @@ int nethowIp(char *ifname[])
                     printf("\t- adresse IPv4: %s\n", addr);
                     printf("\t- masque réseau (IPv4) : /%d\n", i);
                 } else if (AF_INET6 == list->ifa_addr->sa_family) {
-                    const void *addr = &((struct sockaddr_in6 *) list->ifa_addr)->sin6_addr;
+                    const struct in6_addr *addr = &((struct sockaddr_in6 *) list->ifa_addr)->sin6_addr;
                     char ipstrv6[INET6_ADDRSTRLEN];
                     inet_ntop(AF_INET6, addr, ipstrv6, sizeof(ipstrv6));
 
@@ -69,8 +70,8 @@ int nethowIp(char *ifname[])
                         cidrv6 = cidrv6 + temp;
                     }
 
-                    printf("\t- adresse IPv6: %p\n", ipstrv6);
-                    printf("\t- masque réseau (IPv4) : /%d\n", cidrv6);
+                    printf("\t- adresse IPv6: %s\n", ipstrv6);
+                    printf("\t- masque réseau (IPv6) : /%d\n", cidrv6);
                 }
 
             }
