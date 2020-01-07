@@ -16,26 +16,26 @@
  */
 int netshowIname()
 {
-    struct ifaddrs *addrs, *tmp;
+    struct ifaddrs *addrs,*tmp;
 
-    if (-1 == getifaddrs(&addrs)) {
+    if (getifaddrs(&addrs) == -1) {
         perror("getifaddrs");
         exit(EXIT_FAILURE);
     }
 
     tmp = addrs;
 
-    printf("------------------------- LISTES DES INTERFACES RÉSEAUX -------------------------\n");
+    printf("------------------------LISTES DES INTERFACES RÉSEAUX ----------------\n");
 
     while (tmp)
     {
-        if (tmp->ifa_addr && AF_PACKET == tmp->ifa_addr->sa_family)
+        if (tmp->ifa_addr && tmp->ifa_addr->sa_family == AF_PACKET)
             printf("%s\n", tmp->ifa_name);
 
         tmp = tmp->ifa_next;
     }
 
-    printf("---------------------------------------------------------------------------------\n");
+    printf("----------------------------------------------------------------------\n");
 
     freeifaddrs(addrs);
     exit(EXIT_SUCCESS);
