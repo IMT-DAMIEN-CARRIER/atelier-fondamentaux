@@ -22,7 +22,7 @@ static int bitCount(uint32_t i) {
     int count = 0;
 
     while (i > 0) {
-        if (1 == i) {
+        if (1 & i) {
             count++;
         }
 
